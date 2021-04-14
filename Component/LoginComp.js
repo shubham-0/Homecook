@@ -9,14 +9,18 @@ const {height,width}=Dimensions.get('window');
 
 
 
+
 class LoginComp extends React.Component{
+  
+  
 constructor(props){
   super(props);
   this.state={
     showPass:true,
-    press:false
+    press:false,
+    userName:"",
+    password:0,
   }
-  console.log(this.props.na)
 }
 showPass=()=>{
   if(this.state.press==false){
@@ -25,7 +29,10 @@ showPass=()=>{
   }else{
     this.setState({showPass:true,press:false})
   }
+  console.log(this.state.password);
 }
+
+
  render(){
  
  return (
@@ -43,6 +50,7 @@ showPass=()=>{
           numeric
           keyboardType={'default'}
           underlineColorAndroid='transparent'
+          onChangeText={(userName)=>this.setState({userName})}
         />
         <Icons name={'ios-person'} size={20} color={'rgba(91, 178, 76, 0.77)'} style={styles.icon}/>
       </View>
@@ -55,6 +63,7 @@ showPass=()=>{
           keyboardType={'default'}
           underlineColorAndroid='transparent'
          secureTextEntry={this.state.showPass}
+         onChangeText={(password)=>this.setState({password})}
         />
         <Icons name={'ios-lock-closed'} size={20} color={'rgba(91, 178, 76, 0.77)'} style={styles.icon}/>
         <TouchableOpacity onPress={this.showPass.bind(this)} hitSlop={{top:9}}  >
@@ -62,6 +71,7 @@ showPass=()=>{
         <Icons  name={this.state.press==false?'ios-eye':'ios-eye-off'} size={20} color={'rgba(91, 178, 76, 0.77)'} style={styles.eye}/>
         
    </TouchableOpacity>
+  
       </View>
       
      

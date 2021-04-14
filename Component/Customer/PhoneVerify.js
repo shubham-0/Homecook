@@ -4,12 +4,48 @@ import {SafeAreaView, StyleSheet, Text, View, ImageBackground ,Image,Dimensions,
 import Logo from './Logo';
 import VerifyPhn from '../VerifyPhn'
 import Icons from 'react-native-vector-icons/Ionicons'
+import {auth} from '../server/firebaseConfig'
+import {fbase} from '../server/firebaseConfig'
+
 
 const {height,width}=Dimensions.get('window');
 
 
 
 class PhoneVerify extends React.Component{
+  constructor(props)
+  {
+    super(props);
+    this.state={
+      PHONE:0
+    }
+  }
+   handler(e){
+    // recaptcha-container=12345
+    const phonenumber="+91 93342 64497"
+    //let appVerifier = 785674
+      
+    fbase.auth().settings.appVerificationDisabledForTesting = true;
+    // console.log(this.state.PHONE);
+    // const appVerifier = window.recaptchaVerifier;
+    var appVerifier = new fbase.auth.RecaptchaVerifier('recaptcha-container');
+   auth.signInWithPhoneNumber(phonenumber,appVerifier)
+    .then((confirmationResult) => {
+      // SMS sent. Prompt user to type the code from the message, then sign the
+      // user in with confirmationResult.confirm(code).
+      //window.confirmationResult = confirmationResult;
+      console.log( confirmationResult);
+      // ...
+    }).catch((error) => {
+      // Error; SMS not sent
+      // ...
+    });
+   
+    
+    
+
+    console.log(auth);
+}
    
  render(){
       return(
@@ -33,11 +69,12 @@ class PhoneVerify extends React.Component{
      numeric
      keyboardType={'numeric'}
      underlineColorAndroid='transparent'
+     onChangeText={(PHONE)=>this.setState({PHONE})}
    />
     <Icons name={'md-call'} size={20} color={'rgba(91, 178, 76, 0.77)'} style={styles.icon}/>
   </View>
     <View>
-        <TouchableOpacity style={styles.buttonHover} onPress={() =>{this.props.navigation.navigate('OtpDriver')}}>
+        <TouchableOpacity style={styles.buttonHover} onPress={this.handler.bind(this)}>
          <Text style={{textAlign:'center'}}>Get OTP</Text>
         </TouchableOpacity>
     </View>

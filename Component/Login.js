@@ -13,8 +13,8 @@ import LoginComp from './LoginComp';
 
 const {height,width}=Dimensions.get('window');
 class Login extends React.Component{
+   
  render(){
-
   return (
     <View> 
     <StatusBar
